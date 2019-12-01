@@ -24,6 +24,27 @@ parts:
       - python3-pyqt5
       - python3-pyqt5.qtsvg
       - python3-pyqt5.qtwebsockets
+      # Generated automatically by snapcraft
+      - libblkid1
+      - libbz2-1.0
+      - libc6
+      - libdb5.3
+      - libgcc1
+      - libgcrypt20
+      - libgpg-error0
+      - liblz4-1
+      - liblzma5
+      - libmount1
+      - libncursesw5
+      - libpcre3
+      - libselinux1
+      - libstdc++6
+      - libsystemd0
+      - libtinfo5
+      - libudev1
+      - libuuid1
+      - zlib1g
+
     after: [gns3server, desktop-qt5]
   gns3server:
     plugin: python
@@ -34,6 +55,22 @@ parts:
     stage-packages:
       - python3-pip
       - python3-distutils-extra
+      # Generated automatically by snapcraft
+      - libblkid1
+      - libbz2-1.0
+      - libc6
+      - libdb5.3
+      - libgcc1
+      - liblzma5
+      - libmount1
+      - libncursesw5
+      - libpcre3
+      - libselinux1
+      - libstdc++6
+      - libtinfo5
+      - libuuid1
+      - zlib1g
+
   ubridge:
     plugin: make
     source: https://github.com/GNS3/ubridge.git
@@ -42,16 +79,26 @@ parts:
     override-pull: |
       snapcraftctl pull
       sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/usr/bin/|' Makefile
+    build-packages:
+      - build-essential
     stage-packages:
+      - libcap2
+      - libcap2-bin
       - libpcap-dev
-  dynamips:
-    plugin: cmake
-    source: https://github.com/GNS3/dynamips.git
-    source-type: git
-    source-tag: 'v0.2.21'
-    stage-packages:
-      - libelf-dev
-      - libpcap0.8-dev
+      # Generated automatically by snapcraft
+      - libc6
+
+        ##TODO: fix dynamips compilation errors
+        #  dynamips:
+        #    plugin: cmake
+        #    source: https://github.com/GNS3/dynamips.git
+        #    source-type: git
+        #    source-tag: 'v0.2.21'
+        #    build-packages:
+        #      - build-essential
+        #    stage-packages:
+        #      - libelf-dev
+        #      - libpcap0.8-dev
 
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
@@ -61,24 +108,42 @@ parts:
     plugin: make
     make-parameters: ["FLAVOR=qt5"]
     build-packages:
-    - build-essential
-    - qtbase5-dev
-    - dpkg-dev
+      - build-essential
+      - qtbase5-dev
+      - dpkg-dev
     stage-packages:
-    - libxkbcommon0
-    - ttf-ubuntu-font-family
-    - dmz-cursor-theme
-    - light-themes
-    - adwaita-icon-theme
-    - gnome-themes-standard
-    - shared-mime-info
-    - libqt5gui5
-    - libgdk-pixbuf2.0-0
-    - libqt5svg5 # for loading icon themes which are svg
-    - try: [appmenu-qt5] # not available on core18
-    - locales-all
-    - xdg-user-dirs
-    - fcitx-frontend-qt5
+      - libxkbcommon0
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libqt5gui5
+      - libgdk-pixbuf2.0-0
+      - libqt5svg5 # for loading icon themes which are svg
+      - try: [appmenu-qt5] # not available on core18
+      - locales-all
+      - xdg-user-dirs
+      - fcitx-frontend-qt5
+      # Generated automatically by snapcraft
+      - libblkid1
+      - libc6
+      - libgcc1
+      - libgcrypt20
+      - libgpg-error0
+      - liblz4-1
+      - liblzma5
+      - libmount1
+      - libpcre3
+      - libselinux1
+      - libstdc++6
+      - libsystemd0
+      - libtinfo5
+      - libudev1
+      - libuuid1
+      - zlib1g
+
 
 apps:
   gns3:
@@ -87,5 +152,5 @@ apps:
     command: bin/gns3server
   ubridge:
     command: usr/bin/ubridge
-  dynamips:
-    command: bin/dynamips
+    #  dynamips:
+    #    command: bin/dynamips
