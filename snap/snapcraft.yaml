@@ -1,0 +1,39 @@
+name: gns3
+version: '2.2.3'
+summary: GNS3
+description: |
+  GNS3 is a graphical network simulator that allows simulation of complex networks.
+confinement: devmode
+base: core
+#TODO: switch to `stable` once ready
+grade: dev
+
+parts:
+  gns3-gui:
+    plugin: python
+    python-version: python3
+    source: https://github.com/GNS3/gns3-gui.git
+    source-type: git
+    source-tag: 'v2.2.3'
+    stage-packages:
+      - python3-pip
+      - python3-distutils-extra
+      - python3-pyqt5
+      - python3-pyqt5.qtsvg
+      - python3-pyqt5.qtwebsockets
+    after: [gns3-server]
+  gns3-server:
+    plugin: python
+    python-version: python3
+    source: https://github.com/GNS3/gns3-server.git
+    source-type: git
+    source-tag: 'v2.2.3'
+    stage-packages:
+      - python3-pip
+      - python3-distutils-extra
+
+apps:
+  gns3-gui:
+    command: bin/gns3
+  gns3-server:
+    command: bin/gns3server
