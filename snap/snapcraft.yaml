@@ -1,15 +1,18 @@
 name: gns3
+#TODO: switch to `version-script` to auto-sync with the releases
 version: '2.2.3'
 summary: GNS3
 description: |
   GNS3 is a graphical network simulator that allows simulation of complex networks.
-confinement: devmode
+icon: snap/gui/gns3.png
 base: core
 #TODO: switch to `stable` once ready
-grade: dev
+grade: devel
+confinement: devmode
 
 parts:
-  gns3-gui:
+  #gns3_gui
+  gns3:
     plugin: python
     python-version: python3
     source: https://github.com/GNS3/gns3-gui.git
@@ -21,8 +24,8 @@ parts:
       - python3-pyqt5
       - python3-pyqt5.qtsvg
       - python3-pyqt5.qtwebsockets
-    after: [gns3-server]
-  gns3-server:
+    after: [gns3server, desktop-qt5]
+  gns3server:
     plugin: python
     python-version: python3
     source: https://github.com/GNS3/gns3-server.git
@@ -31,9 +34,58 @@ parts:
     stage-packages:
       - python3-pip
       - python3-distutils-extra
+  ubridge:
+    plugin: make
+    source: https://github.com/GNS3/ubridge.git
+    source-type: git
+    source-tag: 'v0.9.16'
+    override-pull: |
+      snapcraftctl pull
+      sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/usr/bin/|' Makefile
+    stage-packages:
+      - libpcap-dev
+  dynamips:
+    plugin: cmake
+    source: https://github.com/GNS3/dynamips.git
+    source-type: git
+    source-tag: 'v0.2.21'
+    stage-packages:
+      - libelf-dev
+      - libpcap0.8-dev
+
+  desktop-qt5:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-depth: 1
+    source-subdir: qt
+
+    plugin: make
+    make-parameters: ["FLAVOR=qt5"]
+    build-packages:
+    - build-essential
+    - qtbase5-dev
+    - dpkg-dev
+    stage-packages:
+    - libxkbcommon0
+    - ttf-ubuntu-font-family
+    - dmz-cursor-theme
+    - light-themes
+    - adwaita-icon-theme
+    - gnome-themes-standard
+    - shared-mime-info
+    - libqt5gui5
+    - libgdk-pixbuf2.0-0
+    - libqt5svg5 # for loading icon themes which are svg
+    - try: [appmenu-qt5] # not available on core18
+    - locales-all
+    - xdg-user-dirs
+    - fcitx-frontend-qt5
 
 apps:
-  gns3-gui:
+  gns3:
     command: bin/gns3
-  gns3-server:
+  gns3server:
     command: bin/gns3server
+  ubridge:
+    command: usr/bin/ubridge
+  dynamips:
+    command: bin/dynamips

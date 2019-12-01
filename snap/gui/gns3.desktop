@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=GNS3
+Exec=gns3
+Icon=${SNAP}/meta/gui/gns3.png
+Terminal=false
+Type=Application
+Comment=GNS3 is a graphical network simulator that allows simulation of complex networks
+Keywords=network;simulator;graphical;
