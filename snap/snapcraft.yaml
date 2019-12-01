@@ -5,7 +5,7 @@ summary: GNS3
 description: |
   GNS3 is a graphical network simulator that allows simulation of complex networks.
 icon: snap/gui/gns3.png
-base: core
+base: core18
 #TODO: switch to `stable` once ready
 grade: devel
 confinement: devmode
