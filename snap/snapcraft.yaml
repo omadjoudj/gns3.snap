@@ -5,6 +5,7 @@ summary: GNS3
 description: |
   GNS3 is a graphical network simulator that allows simulation of complex networks.
 icon: snap/gui/gns3.png
+license: GPL-3.0
 base: core18
 #TODO: switch to `stable` once ready
 grade: devel
@@ -27,7 +28,7 @@ parts:
       # Generated automatically by snapcraft
       - libblkid1
       - libbz2-1.0
-      - libc6
+        #- libc6
       - libdb5.3
       - libgcc1
       - libgcrypt20
@@ -58,7 +59,7 @@ parts:
       # Generated automatically by snapcraft
       - libblkid1
       - libbz2-1.0
-      - libc6
+        #- libc6
       - libdb5.3
       - libgcc1
       - liblzma5
@@ -86,7 +87,7 @@ parts:
       - libcap2-bin
       - libpcap-dev
       # Generated automatically by snapcraft
-      - libc6
+      #- libc6
 
         ##TODO: fix dynamips compilation errors
         #  dynamips:
@@ -128,7 +129,7 @@ parts:
       - fcitx-frontend-qt5
       # Generated automatically by snapcraft
       - libblkid1
-      - libc6
+        #- libc6
       - libgcc1
       - libgcrypt20
       - libgpg-error0
