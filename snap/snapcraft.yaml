@@ -12,6 +12,10 @@ grade: devel
 # GNS3 cannot run w/ `strict` since it needs access to kvm and other things in /usr/bin
 confinement: classic
 
+environment:
+  PATH: $SNAP/usr/bin:$SNAP/bin:$SNAP/sbin:$PATH
+  PYTHONPATH: $SNAP/lib/python3/site-packages:$PYTHONPATH
+
 parts:
   #gns3_gui
   gns3:
@@ -82,7 +86,7 @@ parts:
     source-tag: 'v0.9.16'
     override-pull: |
       snapcraftctl pull
-      sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/bin/|' Makefile
+      sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/bin|' Makefile
     override-build: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin
       snapcraftctl build
