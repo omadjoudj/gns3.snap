@@ -95,7 +95,7 @@ parts:
     override-prime:
       snapcraftctl prime
 
-      setcap ap_net_admin,cap_net_raw=ep $SNAPCRAFT_PRIME/bin/ubridge
+      setcap cap_net_admin,cap_net_raw=ep "$SNAPCRAFT_PRIME/bin/ubridge"
     stage-packages:
       - libcap2
       - libcap2-bin
