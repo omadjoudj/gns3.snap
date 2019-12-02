@@ -9,7 +9,8 @@ license: GPL-3.0
 base: core18
 #TODO: switch to `stable` once ready
 grade: devel
-confinement: strict
+# GNS3 cannot run w/ `strict` since it needs access to kvm and other things in /usr/bin
+confinement: classic
 
 parts:
   #gns3_gui
@@ -81,7 +82,10 @@ parts:
     source-tag: 'v0.9.16'
     override-pull: |
       snapcraftctl pull
-      sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/usr/bin/|' Makefile
+      sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/bin/|' Makefile
+    override-build: |
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      snapcraftctl build
     build-packages:
       - build-essential
     stage-packages:
@@ -152,18 +156,9 @@ parts:
 apps:
   gns3:
     command: bin/gns3
-    plugs:
-      - unity7
-      - network
-      - network-bind
-      - home
-      - opengl
-      - x11
-      - desktop
-      - desktop-legacy
-    #gns3server:
-    #command: bin/gns3server
-    #ubridge:
-    #command: usr/bin/ubridge
+  gns3server:
+    command: bin/gns3server
+  ubridge:
+    command: bin/ubridge
     #  dynamips:
     #    command: bin/dynamips
