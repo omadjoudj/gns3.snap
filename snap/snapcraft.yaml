@@ -92,6 +92,10 @@ parts:
       snapcraftctl build
     build-packages:
       - build-essential
+    override-prime:
+      snapcraftctl prime
+
+      setcap ap_net_admin,cap_net_raw=ep $SNAPCRAFT_PRIME/bin/ubridge
     stage-packages:
       - libcap2
       - libcap2-bin
@@ -160,9 +164,9 @@ parts:
 apps:
   gns3:
     command: bin/gns3
-  gns3server:
-    command: bin/gns3server
-  ubridge:
-    command: bin/ubridge
+    #  gns3server:
+    #    command: bin/gns3server
+    #  ubridge:
+    #    command: bin/ubridge
     #  dynamips:
     #    command: bin/dynamips
