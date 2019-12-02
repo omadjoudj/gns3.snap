@@ -8,7 +8,7 @@ capabilities are not supported, Wireshark case [1]
 
 [1] https://forum.snapcraft.io/t/wireshark-and-setcap/9629
 
-~~In-snap aliases are deprecated, these aliases are required ~~
+~~In-snap aliases are deprecated, these aliases are required~~
 
 ~~sudo snap alias gns3.gns3server gns3server~~
 ~~sudo snap alias gns3.ubridge ubridge~~
