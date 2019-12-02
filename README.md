@@ -4,9 +4,13 @@
 
 ## Notes
 
+**Possible workaround:** Convert gns3server and ubridge to daemon
+
 capabilities are not supported, Wireshark case [1]
 
 [1] https://forum.snapcraft.io/t/wireshark-and-setcap/9629
+
+[2] https://github.com/snapcore/snapcraft/blob/665143c94584260b93e3b4d4f7099c92b05ce22f/snapcraft/internal/lifecycle/_packer.py#L98
 
 ~~In-snap aliases are deprecated, these aliases are required~~
 
