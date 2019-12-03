@@ -170,7 +170,7 @@ apps:
     command: bin/ubridge -H 127.0.0.1
     daemon: simple
   gns3server:
-    command: bin/gns3server
+    command: bin/gns3server --local
     daemon: simple
     #  dynamips:
     #    command: bin/dynamips
