@@ -164,9 +164,13 @@ parts:
 apps:
   gns3:
     command: bin/gns3
-    #  gns3server:
-    #    command: bin/gns3server
-    #  ubridge:
-    #    command: bin/ubridge
+#NOTE: snap ignores setcap even when done in the last stage (prime)
+#due to: https://github.com/snapcore/snapcraft/blob/665143c94584260b93e3b4d4f7099c92b05ce22f/snapcraft/internal/lifecycle/_packer.py#L98
+  ubridge:
+    command: bin/ubridge -H 127.0.0.1
+    daemon: simple
+  gns3server:
+    command: bin/gns3server
+    daemon: simple
     #  dynamips:
     #    command: bin/dynamips
