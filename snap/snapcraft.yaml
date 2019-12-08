@@ -9,7 +9,7 @@ license: GPL-3.0
 base: core18
 #TODO: switch to `stable` once ready
 grade: devel
-# GNS3 cannot run w/ `strict` since it needs access to kvm and other things in /usr/bin
+# GNS3 cannot run w/ `strict` since it needs access to qemu/kvm and other things in /usr/bin
 confinement: classic
 
 environment:
@@ -87,15 +87,15 @@ parts:
     override-pull: |
       snapcraftctl pull
       sed -i 's|BINDIR  =   /usr/local/bin|BINDIR  =   \$\(DESTDIR\)/bin|' Makefile
+      sed -i '/setcap.*/d' Makefile
     override-build: |
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin
       snapcraftctl build
     build-packages:
       - build-essential
-    override-prime:
-      snapcraftctl prime
-
-      setcap cap_net_admin,cap_net_raw=ep "$SNAPCRAFT_PRIME/bin/ubridge"
+        #    override-prime:
+        #      snapcraftctl prime
+        #      setcap cap_net_admin,cap_net_raw=ep "$SNAPCRAFT_PRIME/bin/ubridge"
     stage-packages:
       - libcap2
       - libcap2-bin
@@ -104,7 +104,26 @@ parts:
       # Generated automatically by snapcraft
       #- libc6
 
-        ##TODO: fix dynamips compilation errors
+      ##TODO: fix dynamips and vpcs compilation errors
+  vpcs:
+    plugin: make
+    source: https://github.com/GNS3/vpcs.git
+    override-pull: |
+      snapcraftctl pull
+      #src/getopt.h conflicts with system's <getopt.h>
+      mv src/getopt.h src/getopt.h_DISABLED
+    makefile: Makefile.linux
+    make-parameters: ["-C", "bin/", "CCOPT=-m64"]
+    override-build: |
+      #HACK: Makefile.linux does not provide install target
+      mv src/ bin/
+      snapcraftctl build
+    source-type: git
+    source-tag: 'v0.6.2'
+    build-packages:
+      - build-essential
+    artifacts: ["bin/vpcs"]
+
         #  dynamips:
         #    plugin: cmake
         #    source: https://github.com/GNS3/dynamips.git
@@ -169,8 +188,11 @@ apps:
   ubridge:
     command: bin/ubridge -H 127.0.0.1
     daemon: simple
-  gns3server:
-    command: bin/gns3server --local
-    daemon: simple
+#NOTE: daemon runs only as root which mess up prems (~/GNS3 owned by root)
+# https://bugs.launchpad.net/snappy/+bug/1619888
+    #gns3server:
+    #command: bin/gns3server --local
+    #daemon: simple
+#TODO: dynamips fails to compile
     #  dynamips:
     #    command: bin/dynamips

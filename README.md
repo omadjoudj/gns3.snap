@@ -4,6 +4,10 @@
 
 ## Notes
 
+- Dont ask setcap question If ubridge is running as service
+- Package vpcs
+- ubridge as service is not working
+
 **Possible workaround:** Convert gns3server and ubridge to daemon
 
 capabilities are not supported, Wireshark case [1]
