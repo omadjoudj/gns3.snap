@@ -2,6 +2,12 @@
 
 # GNS3 snap [work in progress]
 
+Install and enable docker, then run:
+
+`sudo ./docker-build-snap.sh`
+
+
+
 ## Notes
 
 - ubridge as service is not working
