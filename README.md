@@ -4,9 +4,10 @@
 
 ## Notes
 
-- Dont ask setcap question If ubridge is running as service
-- Package vpcs
 - ubridge as service is not working
+    - Dont ask setcap question If ubridge is running as service
+    - or detect if fs is R/O then offer running as root
+
 
 **Possible workaround:** Convert gns3server and ubridge to daemon
 

@@ -104,7 +104,6 @@ parts:
       # Generated automatically by snapcraft
       #- libc6
 
-      ##TODO: fix dynamips and vpcs compilation errors
   vpcs:
     plugin: make
     source: https://github.com/GNS3/vpcs.git
@@ -117,23 +116,25 @@ parts:
     makefile: Makefile.linux
     make-parameters: ["-C", "bin/", "CCOPT=-m64"]
     override-build: |
-      #HACK: Makefile.linux does not provide install target
+      #HACK: since vpcs Makefile does not have install target
       mv src/ bin/
       snapcraftctl build
     build-packages:
       - build-essential
     artifacts: ["bin/vpcs"]
 
-        #  dynamips:
-        #    plugin: cmake
-        #    source: https://github.com/GNS3/dynamips.git
-        #    source-type: git
-        #    source-tag: 'v0.2.21'
-        #    build-packages:
-        #      - build-essential
-        #    stage-packages:
-        #      - libelf-dev
-        #      - libpcap0.8-dev
+  dynamips:
+    plugin: cmake
+    source: https://github.com/GNS3/dynamips.git
+    source-type: git
+    source-tag: 'v0.2.21'
+    build-packages:
+      - build-essential
+      - libelf-dev
+      - libpcap0.8-dev
+    stage-packages:
+      - libelf1
+      - libpcap0.8
 
   desktop-qt5:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
@@ -185,14 +186,11 @@ apps:
     command: bin/gns3
 #NOTE: snap ignores setcap even when done in the last stage (prime)
 #due to: https://github.com/snapcore/snapcraft/blob/665143c94584260b93e3b4d4f7099c92b05ce22f/snapcraft/internal/lifecycle/_packer.py#L98
-  ubridge:
-    command: bin/ubridge -H 127.0.0.1
-    daemon: simple
+#  ubridge:
+#    command: bin/ubridge -H 127.0.0.1
+#    daemon: simple
 #NOTE: daemon runs only as root which mess up prems (~/GNS3 owned by root)
 # https://bugs.launchpad.net/snappy/+bug/1619888
     #gns3server:
     #command: bin/gns3server --local
     #daemon: simple
-#TODO: dynamips fails to compile
-    #  dynamips:
-    #    command: bin/dynamips
