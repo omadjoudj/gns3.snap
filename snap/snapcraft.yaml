@@ -108,6 +108,8 @@ parts:
   vpcs:
     plugin: make
     source: https://github.com/GNS3/vpcs.git
+    source-type: git
+    source-tag: 'v0.6.2'
     override-pull: |
       snapcraftctl pull
       #src/getopt.h conflicts with system's <getopt.h>
@@ -118,8 +120,6 @@ parts:
       #HACK: Makefile.linux does not provide install target
       mv src/ bin/
       snapcraftctl build
-    source-type: git
-    source-tag: 'v0.6.2'
     build-packages:
       - build-essential
     artifacts: ["bin/vpcs"]
